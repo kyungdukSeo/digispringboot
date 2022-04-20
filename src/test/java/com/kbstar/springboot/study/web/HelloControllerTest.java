@@ -1,5 +1,6 @@
 package com.kbstar.springboot.study.web;
 
+import com.jayway.jsonpath.JsonPath;
 import com.kbstar.springboot.study.web.HelloController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,11 +10,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 // 03. 아래 import는 처음 한번 직접 타이핑(Alt + Enter) 에서 없는 녀석 추가
-import java.util.Scanner;
+// import java.util.Scanner;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = HelloController.class)
@@ -33,6 +37,20 @@ public class HelloControllerTest
                 .andExpect(content().string(hello));
     }
 
+    @Test
+    public void helloDtoTest() throws Exception
+    {
+        String name = "HongKilDong";
+        int age = 78;
+
+        mvc.perform(get("/hello/dto")
+                        .param("name", name)
+                        .param("age", String.valueOf(age)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(name)))
+                .andExpect(jsonPath("$.age", is(age)));
+
+    }
 
 }
 

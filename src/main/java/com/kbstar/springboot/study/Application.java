@@ -27,4 +27,4 @@ public class Application
 // JSP : MVC Model
 //      Model, View, Controller
 
-
+// 10. http://localhost:8080/hello/dto/?name=홍길동&age=78
