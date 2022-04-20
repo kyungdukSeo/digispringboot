@@ -1,4 +1,4 @@
-
+package com.kbstar.springboot.study;
 // com.kbstar.study
 
 import org.springframework.boot.SpringApplication;
@@ -16,7 +16,7 @@ public class Application
     {
         SpringApplication.run(Application.class, args);
         // main 에서 시작
-        // 내장 WAS(Web Application Server) 실행
+        // 내장 WAS(Web com.kbstar.springboot.study.Application Server) 실행
 
     }
 }

@@ -9,8 +9,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 // 03. 아래 import는 처음 한번 직접 타이핑(Alt + Enter) 에서 없는 녀석 추가
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import java.util.Scanner;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = HelloController.class)
@@ -25,5 +28,23 @@ public class HelloControllerTest
     {
         String hello = "hello";
 
+        mvc.perform(get("/hello"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(hello));
     }
+
+
 }
+
+/*
+    전체 구조는 main쪽의 구조와 같아야 한다.
+
+    @ExtendWith, 이전에는 @RunWith
+    @WebMvcTest
+        @Controller
+    @Autowired 자동주입
+        field, constructor, setter
+
+ */
+
+
