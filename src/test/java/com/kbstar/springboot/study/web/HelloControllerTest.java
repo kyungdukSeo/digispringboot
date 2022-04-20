@@ -45,6 +45,12 @@ public class HelloControllerTest
     @Autowired 자동주입
         field, constructor, setter
 
+
+    앞으로 할일
+    04. Lombok 설치 : 생성자, getter/setter를 자동으로 처리
+        Ctrl+Shift+A -> plugin lombok 설치
+        bundle.gradle 에 디펜던시 추가
+
  */
 
 
