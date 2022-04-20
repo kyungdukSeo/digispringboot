@@ -15,6 +15,16 @@ public class Application
     public static void main(String[] args)
     {
         SpringApplication.run(Application.class, args);
+        // main 에서 시작
+        // 내장 WAS(Web Application Server) 실행
 
     }
 }
+
+// 02. 설정 바꾸기
+// File > Settings > Editor > General > Code Completion > Match case 해제 (대소문자 구분 해제) > Apply
+
+// JSP : MVC Model
+//      Model, View, Controller
+
+
