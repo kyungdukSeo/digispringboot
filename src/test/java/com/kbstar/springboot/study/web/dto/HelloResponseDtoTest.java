@@ -21,5 +21,6 @@ public class HelloResponseDtoTest
         HelloResponseDto dto = new HelloResponseDto(name, age);
         assertThat(dto.getName()).isEqualTo(name);
         assertThat(dto.getAge()).isEqualTo(age);
+
     }
 }
