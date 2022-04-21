@@ -28,7 +28,7 @@ dependencies {
     // 07 Getter 정상작동을 위해 추가
     annotationProcessor('org.projectlombok:lombok')
     testImplementation('org.projectlombok:lombok')
-    testImplementation('org.projectlombok:lombok')
+    testAnnotationProcessor('org.projectlombok:lombok')
 
     // 12 JPA : use in-memory database H2DB ==> sync refresh
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
