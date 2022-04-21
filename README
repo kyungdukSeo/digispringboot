@@ -1,0 +1,161 @@
+
+<초기 환경설정>
+1. gradle 다운로드(gradle-6.7.1-bin) 및 압축 풀고(D드라이브) 폴더이름 변경
+2. 환경변수 설정 : 내컴퓨터 우클릭 > 속성 > 시스템 속성 > 고급 tap > 환경변수 클릭
+                 > 시스템변수 path > D:\gradle\bin 추가
+
+3. IntelliJ 프로젝트 생성 및 생성시 jdk 하위버전(1.8 eclipse) 다운로드
+
+4. 파일 수정 및 저장
+   - bundle.gradle
+   - .gitignore (github 연동시)
+
+5. plugin 설치
+	lombok
+	ignore
+
+<
+
+
+
+
+
+1. application.java
+
+Application.java
+02. 설정 바꾸기
+
+File > Settings > Editor > General > Code Completion > Match case 해제 (대소문자 구분 해제) > Apply
+JSP : MVC Model
+     Model, View, Controller
+
+
+HelloControllerTest.java
+03. 아래 import는 처음 한번 직접 타이핑(Alt + Enter) 에서 없는 녀석 추가
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
+-------------------------------
+
+    HelloControllerTest.java
+    전체 구조는 main쪽의 구조와 같아야 한다.
+
+    @ExtendWith, 이전에는 @RunWith
+    @WebMvcTest
+        @Controller
+    @Autowired 자동주입
+        field, constructor, setter
+
+    앞으로 할일
+    04. Lombok 설치 : 생성자, getter/setter를 자동으로 처리
+        Ctrl+Shift+A -> plugin lombok 설치
+        bundle.gradle 에 디펜던시 추가
+
+    bundle.gradle
+    04-1 Lombok
+    추가 후 Ctrl+Shift+O  or 우측상단 Gradle 창에서 새로고침
+    implementation('org.projectlombok:lombok')
+
+    HelloResponseDto.java
+        05.
+
+        DTO : Data Transfer Object (객체정보를 주고받는)
+
+        @Getter : field의 get method를 자동으로 생성
+        @RequiredArgsConstructor
+            선언된 final field가 포함된 생성자 자동 생성
+
+            private String name;
+            private int age;
+            public HelloResponseDto(String name, int age)
+            {
+                this.name = name;
+                this.age = age;
+            }
+            public String getName()
+            {
+                return this.name;
+            }
+            public int getAge()
+            {
+                return this.age;
+            }
+
+            Lombok에 getter가 자동으로 생성.. => 확인
+            단위테스트로 확인 ==> main, test 구조가 같다.
+
+     */
+
+    HelloResponseDtoTest.java
+    06. Getter가 자동으로 동작하는지 단위테스트
+
+    bundle.gradle
+    07 Getter 정상작동을 위해 추가
+    annotationProcessor('org.projectlombok:lombok')
+    testImplementation('org.projectlombok:lombok')
+    testAnnotationProcessor('org.projectlombok:lombok')
+
+    HelloController.java
+    08. http://localhost:8080/dto?name=홍길동&age=12
+        http://localhost:8080/dto/?name=홍길동&age=12
+
+    REST vs. 이전 http://localhost/main.php?cmd=test&idx=3
+    http://localhost/hello
+    JSON(JavaScript Object Notation)를 매핑해준다
+    Method의 종류 : GET, POST, PUT, DELETE
+
+    HTTP Error Code
+    1xx : Trying
+    2xx : OK                                    // 200 ok 하나밖에 없다
+    3xx : Temporary Error, Redirection Error
+    4xx : Permanent Error, Client Error
+          403 : Forbidden
+          404 : Not Found
+          405 : Method Not Allowed
+    5xx : Server Error
+    6xx : Global Error
+
+    SpringBoot : POST(Insert), PUT(Update)을 구분
+    cf, DELETE 삭제
+
+
+    Application.java
+    10. http://localhost:8080/hello/dto/?name=홍길동&age=78
+
+    Application.java
+    11. JPA
+    Java Persistence API : 자바 지속성 API
+    클래스 <-> DB 자동 Mapping
+    기존 방식 : 프로그래밍의 대부분이 Query
+    ORM(Object Relation Mapping)
+    --> SQL의 종속성에서 벗어나게 하겠다.
+
+    CRUD (Create, Read, Update, Delete)
+        조회 : Member member = jpa.find(memberID)
+    JPA를 사용할 때의 장점 : 수정이 매우 간단하다(유지보수)
+        객체(class)가 변경되면, 알아서 DB에 Update Query 날아간다.
+
+    +--------------------------+
+    |  Java Application        |
+    |  +--------------------+  |
+    |  | JPA                |  |
+    |  |  +--------------+  |  |           +----------+
+    |  |  |   JDBC API   |- |- |----SQL--->|   DB     |
+    |  |  |              |<-|- |---------- |          |
+    |  |  +--------------+  |  |           + ---------+
+    |  +--------------------+  |
+    +-------------------------+
+
+
+    bundle.gradle
+    12. JPA : use in-memory database H2DB ==> sync refresh
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('com.h2database:h2')
+
+    testImplementation ('org.springframework.boot:spring-boot-starter-test')
+
+
+

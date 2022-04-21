@@ -31,8 +31,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-public class Posts
-{
+public class Posts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,8 +44,7 @@ public class Posts
 
     // 복제생성자, Copy Constructor
     @Builder
-    public Posts(String title, String content, String author)
-    {
+    public Posts(String title, String content, String author) {
         this.title = title;
         this.content = content;
         this.author = author;
