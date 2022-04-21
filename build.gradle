@@ -30,5 +30,9 @@ dependencies {
     testImplementation('org.projectlombok:lombok')
     testImplementation('org.projectlombok:lombok')
 
+    // 12 JPA : use in-memory database H2DB ==> sync refresh
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('com.h2database:h2')
+
     testImplementation ('org.springframework.boot:spring-boot-starter-test')
 }
