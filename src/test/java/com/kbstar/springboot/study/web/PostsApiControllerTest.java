@@ -47,6 +47,8 @@ public class PostsApiControllerTest
                                                             .title(title)
                                                             .content(content)
                                                             .author("kb author").build();
+
+        System.out.println("------------------------- dto title = " + requestDto.getTitle());
         // http://localhost:1234/api/v1/ports
         String url = "http://localhost:" + port + "/api/v1/posts";
         ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url, requestDto, Long.class);
@@ -61,8 +63,16 @@ public class PostsApiControllerTest
 
         List<Posts> all = postsRepository.findAll();
         assertThat(all.get(0).getTitle()).isEqualTo(title);
-        assertThat(all.get(0).getTitle()).isEqualTo(content);
+        assertThat(all.get(0).getContent()).isEqualTo(content);
 
     }
 
 }
+/*
+    21. 단위테스트
+    HTML Request/Response
+    Client ----req----> Server
+           <---res----
+
+
+ */

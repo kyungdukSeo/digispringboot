@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-
 /*
     19. Service 등록
 
@@ -24,7 +23,6 @@ import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
 @Service
-
 public class PostsService
 {
     private final PostsRepository postsRepository;
@@ -32,11 +30,9 @@ public class PostsService
     @Transactional
     public Long save(PostsSaveRequestDto requestDto)
     {
-        System.out.println("------------------------Post Service----------------------------");
+        System.out.println("------------------------Post Service---------------------------- title = " + requestDto.getTitle());
         return postsRepository.save(requestDto.toEntity()).getId();
 
     }
-
-
 
 }

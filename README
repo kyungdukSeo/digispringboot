@@ -230,7 +230,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     spring.datasource.hikari.jdbc-url=jdbc:h2:mem:testdb;MODE=MYSQL
     spring.datasource.hikari.username=sa
 
-
     # comment(주석)
     # // single line comment
     # /* mulit line comment */
@@ -238,3 +237,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     # # 설정파일인 경우
     # ;
     # -- db comment
+
+    HelloControllerTest.java
+    19. Service 등록
+    자동으로 만들어지는 생성자
+    public PostsService(PostsRepository postsRepository)
+    {
+        this.postsRepository=postsRepository;
+    }
+
+    Transaction : All or Nothing (전부다 성공하거나, 전부 실패)
+
+    PostsApiController.java
+    20. 작업 순서
+    Controller -------(DTO 주면서 저장요청)--------> Service 저장요청 ---------> DB
+    <form method="post" action="/api/v1/posts">
+                        <-- action="main.php?cmd=board&mode=insert" -->
+        <input type="text" name="title">
+        <textarea name="content"></textarea>
+        <button type="submit">저장</button>
+    </form>
+
+    PostsApiControllerTest.java
+    21. 단위테스트
+        HTML Request/Response
+        Client ----req----> Server
+               <---res----
