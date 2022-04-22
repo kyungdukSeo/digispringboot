@@ -16,7 +16,13 @@
 
 <
 
-1. application.java
+application.java
+01.
+Alt + Enter = import (Ctrl + Shift + o)
+@SpringBootApplication
+// SpringBoot 를 자동 설정
+// 여기서부터 설정을 읽는다.
+// 항상 프로젝트의 최상단에 위치
 
 Application.java
 02. 설정 바꾸기
@@ -238,6 +244,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     # ;
     # -- db comment
 
+    PostsSaveRequestDto.java
+    18. 게시글 저장을 위한 데이터 덩어리 만들기
+        id, title, content, author
+        insert into posts (title, content, author) values (?, ?, ?);
+
+         +-----------------------+   +-----------+
+         |    Web Layer          |   |           |
+         |   (controllers) (3)   |   |    DTO(1) |
+         +-----------------------+   |           |
+         +-----------------------+   |           |
+         |    Service Layer(2)   |   +-----------+
+         |                       |   +-----------+
+         +-----------------------+   |  Domain   |
+         +-----------------------+   |  Model    |
+         |    Repository Layer   |   | (Entity)  |
+         |                       |   |  Posts    |
+         +-----------------------+   +-----------+
+
     HelloControllerTest.java
     19. Service 등록
     자동으로 만들어지는 생성자
@@ -289,30 +313,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
     PostsService.java
     25. 업데이트를 위한 매핑(객체랑 DB)
-
     등록 : /api/v1/posts      <-- 새글 등록
     수정 : /api/v1/posts/3    <-- 3번글을 수정
-
     1) DTO -> Service -> Controller
 
-PostsApiController.java
-  26. 수정을 위한 REST 등록
+    PostsApiController.java
+    26. 수정을 위한 REST 등록
         Method : POST, PUT(0), GET, DELETE
 
         DTO -> Service -> Controller -> 단위테스트
 
-PostsApiControllerTest.java
-27. 수정하기 단위테스트
-
-
-
-
-http://localhost:8080/h2-console
+    PostsApiControllerTest.java
+    27. 수정하기 단위테스트
 
 
 
 
 
+
+    http://localhost:8080/h2-console
 
 
     조회
