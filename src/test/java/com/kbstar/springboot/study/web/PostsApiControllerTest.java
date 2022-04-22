@@ -3,6 +3,7 @@ package com.kbstar.springboot.study.web;
 import com.kbstar.springboot.study.domain.posts.Posts;
 import com.kbstar.springboot.study.domain.posts.PostsRepository;
 import com.kbstar.springboot.study.web.dto.PostsSaveRequestDto;
+import com.kbstar.springboot.study.web.dto.PostsUpdateRequestDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.swing.border.TitledBorder;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,6 +40,20 @@ public class PostsApiControllerTest
     {
         postsRepository.deleteAll();
     }
+
+    /*
+    21. 단위테스트
+    HTML Request/Response
+    Client ----req----> Server
+           <---res----
+
+    +---------------------------+
+    |        HTML Header        |
+    +---------------------------+
+    |        HTML Body          |
+    |         ...               |
+    +---------------------------+
+    */
 
     @Test
     public void postsRegistTest() throws Exception
@@ -67,12 +85,41 @@ public class PostsApiControllerTest
 
     }
 
+    /*
+        27. 수정하기 단위테스트
+
+     */
+
+    public void postsUpdateTest() throws Exception
+    {
+        Posts savedPosts = postsRepository.save(
+                Posts.builder().title("test title").content("test content").author("test author").build()
+        );
+
+        // 정상적으로 들어갔다면, 맨 마지막 데이터가 나 이다
+        Long updateId = savedPosts.getId();
+        String expectedTitle = "kb title";
+        String expectedContent = "kb content";
+
+        PostsUpdateRequestDto requestDto = PostsUpdateRequestDto.builder().title(expectedTitle).content(expectedContent).build();
+        System.out.println("savedPosts.getID (나) = " + updateId);
+
+        String url = "http://localhost:" + port + "/api/v1/posts/"+updateId;
+        HttpEntity<PostsUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
+
+        ResponseEntity<Long> responseEntity = restTemplate.exchange(
+                                                url,
+                                                HttpMethod.PUT,
+                                                requestEntity,
+                                                Long.class
+                                                );
+
+        assertThat(responseEntity.getStatusCode()).isEqualByComparingTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody()).isGreaterThan(0L);
+
+        List<Posts> all = postsRepository.findAll();
+        assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
+        assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
+
+    }
 }
-/*
-    21. 단위테스트
-    HTML Request/Response
-    Client ----req----> Server
-           <---res----
-
-
- */

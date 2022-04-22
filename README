@@ -263,3 +263,93 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         HTML Request/Response
         Client ----req----> Server
                <---res----
+
+    PostsUpdateRequestDto.java
+    22. Post Update
+
+    개발 순서
+    1) DTO
+    2) Service
+    3) Controller
+
+    PostsResponseDto.java
+    23. Request에 대한 응답 데이터 만들기
+        1
+                DTO(4)
+        2
+                Entity(5)
+        3
+        -> 5를 이용해 4를 만듬
+
+    Posts.java
+    24. 데이터 지속성(Consistent : 객체와 Entity의 일치)
+        객체가 업데이트 되면 자동으로 DB데이터가 변경
+
+        실제 DB에 업데이트 되도록 만들기
+
+    PostsService.java
+    25. 업데이트를 위한 매핑(객체랑 DB)
+
+    등록 : /api/v1/posts      <-- 새글 등록
+    수정 : /api/v1/posts/3    <-- 3번글을 수정
+
+    1) DTO -> Service -> Controller
+
+PostsApiController.java
+  26. 수정을 위한 REST 등록
+        Method : POST, PUT(0), GET, DELETE
+
+        DTO -> Service -> Controller -> 단위테스트
+
+PostsApiControllerTest.java
+27. 수정하기 단위테스트
+
+
+
+
+http://localhost:8080/h2-console
+
+
+
+
+
+
+
+    조회
+    +-----------------------------+
+    |  Java Application           |
+    |                             |
+    |     +------------------+    |
+    |     | JPA              |    |
+    |     | +--------------+ |    |            +---------+
+    |     | |  JDBC        + +----+---SQL--->  |   DB    |
+    |     | |  API         + +<---+---Ret----  |         |
+    |     | +--------------+ |    |            +---------+
+    |     +------------------+    |
+    +-----------------------------+
+
+    저장
+    +---------------------------------------------+
+    |                                             |
+    |   +-----------+              +------------+ |
+    |   |           |   (Entity)   | JPA        | |
+    |   |   Member  | --Persist -->|  +-------+ | |
+    |   |   DAO     |              |  | JDBC  | + +---(insert SQL) ---> DB
+    |   |           |              |  +-------+ | |
+    |   +-----------+              +------------+ |
+    |                                             |
+    +---------------------------------------------+
+
+
+    저장
+    +---------------------------------------------+
+    |                                             |
+    |   +-----------+              +------------+ |
+    |   |           |              | JPA        | |
+    |   |   Member  |--find(id)--->|  +-------+ | |                     +------+
+    |   |   DAO     |              |  | JDBC  | + +---(insert SQL) ---> |  DB  |
+    |   |           |    (entity)  |  | API   | | |<------ Ret -------- |      |
+    |   |           |<-- (object) -|  +-------+ | |                     +------+
+    |   +-----------+              +------------+ |
+    |                                             |
+    +---------------------------------------------+
