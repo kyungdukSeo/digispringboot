@@ -14,361 +14,360 @@
 	lombok
 	ignore
 
-<
+<프로그래밍>
 
-application.java
-01.
-Alt + Enter = import (Ctrl + Shift + o)
+01. Annotation 사용 및 단축키 확인
+작업파일 : application.java
+
 @SpringBootApplication
 // SpringBoot 를 자동 설정
 // 여기서부터 설정을 읽는다.
 // 항상 프로젝트의 최상단에 위치
 
-Application.java
+IntelliJ vs eclipse 단축키 확인 (자동 import)
+Alt + Enter = import (Ctrl + Shift + o)
+
 02. 설정 바꾸기
+작업파일 : Application.java
 
 File > Settings > Editor > General > Code Completion > Match case 해제 (대소문자 구분 해제) > Apply
 JSP : MVC Model
      Model, View, Controller
 
 
-HelloControllerTest.java
 03. 아래 import는 처음 한번 직접 타이핑(Alt + Enter) 에서 없는 녀석 추가
+작업파일 : HelloControllerTest.java
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+전체 구조는 main쪽의 구조와 같아야 한다.
 
--------------------------------
+@ExtendWith, 이전에는 @RunWith
+@WebMvcTest
+    @Controller
+@Autowired 자동주입
+    field, constructor, setter
 
-    HelloControllerTest.java
-    전체 구조는 main쪽의 구조와 같아야 한다.
 
-    @ExtendWith, 이전에는 @RunWith
-    @WebMvcTest
-        @Controller
-    @Autowired 자동주입
-        field, constructor, setter
+04. 앞으로 할일 : Lombok plugin 설치 및 환경설정
+작업파일 : HelloControllerTest.java, bundle.gradle
 
-    앞으로 할일
-    04. Lombok 설치 : 생성자, getter/setter를 자동으로 처리
-        Ctrl+Shift+A -> plugin lombok 설치
-        bundle.gradle 에 디펜던시 추가
+Lombok 설치 : 생성자, getter/setter를 자동으로 처리
+Ctrl+Shift+A -> plugin lombok 설치
+bundle.gradle 에 디펜던시 추가
 
-    bundle.gradle
     04-1 Lombok
+    작업파일 : bundle.gradle
     추가 후 Ctrl+Shift+O  or 우측상단 Gradle 창에서 새로고침
     implementation('org.projectlombok:lombok')
 
-    HelloResponseDto.java
-        05.
 
-        DTO : Data Transfer Object (객체정보를 주고받는)
+** 추가 확인사항 **
+작업파일 : HelloResponseDto.java
+DTO : Data Transfer Object (객체정보를 주고받는)
+@Getter : field의 get method를 자동으로 생성
+@RequiredArgsConstructor
+    선언된 final field가 포함된 생성자 자동 생성
 
-        @Getter : field의 get method를 자동으로 생성
-        @RequiredArgsConstructor
-            선언된 final field가 포함된 생성자 자동 생성
-
-            private String name;
-            private int age;
-            public HelloResponseDto(String name, int age)
-            {
-                this.name = name;
-                this.age = age;
-            }
-            public String getName()
-            {
-                return this.name;
-            }
-            public int getAge()
-            {
-                return this.age;
-            }
-
-            Lombok에 getter가 자동으로 생성.. => 확인
-            단위테스트로 확인 ==> main, test 구조가 같다.
-
-     */
-
-    HelloResponseDtoTest.java
-    06. Getter가 자동으로 동작하는지 단위테스트
-
-    bundle.gradle
-    07 Getter 정상작동을 위해 추가
-    annotationProcessor('org.projectlombok:lombok')
-    testImplementation('org.projectlombok:lombok')
-    testAnnotationProcessor('org.projectlombok:lombok')
-
-    HelloController.java
-    08. http://localhost:8080/dto?name=홍길동&age=12
-        http://localhost:8080/dto/?name=홍길동&age=12
-
-    REST vs. 이전 http://localhost/main.php?cmd=test&idx=3
-    http://localhost/hello
-    JSON(JavaScript Object Notation)를 매핑해준다
-    Method의 종류 : GET, POST, PUT, DELETE
-
-    HTTP Error Code
-    1xx : Trying
-    2xx : OK                                    // 200 ok 하나밖에 없다
-    3xx : Temporary Error, Redirection Error
-    4xx : Permanent Error, Client Error
-          403 : Forbidden
-          404 : Not Found
-          405 : Method Not Allowed
-    5xx : Server Error
-    6xx : Global Error
-
-    SpringBoot : POST(Insert), PUT(Update)을 구분
-    cf, DELETE 삭제
-
-
-    Application.java
-    10. http://localhost:8080/hello/dto/?name=홍길동&age=78
-
-    Application.java
-    11. JPA
-    Java Persistence API : 자바 지속성 API
-    클래스 <-> DB 자동 Mapping
-    기존 방식 : 프로그래밍의 대부분이 Query
-    ORM(Object Relation Mapping)
-    --> SQL의 종속성에서 벗어나게 하겠다.
-
-    CRUD (Create, Read, Update, Delete)
-        조회 : Member member = jpa.find(memberID)
-    JPA를 사용할 때의 장점 : 수정이 매우 간단하다(유지보수)
-        객체(class)가 변경되면, 알아서 DB에 Update Query 날아간다.
-
-    +--------------------------+
-    |  Java Application        |
-    |  +--------------------+  |
-    |  | JPA                |  |
-    |  |  +--------------+  |  |           +----------+
-    |  |  |   JDBC API   |- |- |----SQL--->|   DB     |
-    |  |  |              |<-|- |---------- |          |
-    |  |  +--------------+  |  |           + ---------+
-    |  +--------------------+  |
-    +-------------------------+
-
-
-    bundle.gradle
-    12. JPA : use in-memory database H2DB ==> sync refresh
-    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-    implementation('com.h2database:h2')
-
-    testImplementation ('org.springframework.boot:spring-boot-starter-test')
-
-
-    Posts.java
-    13. 게시글 관련 클래스 정의
-    <form method='post' enctype='multipart/form-data' action='a.jpg'>
-        <input type='file' name='upfile'>
-    </form>
-
-    @Entity : JPA 에서 필요한 Annotation
-        테이블과 클래스를 매핑해준다.
-        Posts.java  ->  posts 데이터베이스 테이블 매핑
-            myFamilyCount   (Camel 표기법)
-            my_family_count (Snake 표기법, Linux 이름짓는 방식) -> JPA 에선 사용하지 않는걸 추천
-
-    @Id : 데이터베이스의 키 값
-    @GeneratedValue : 키 생성
-    @Column : 데이터베이스 테이블을 내부적으로 생성해줄 때 사이즈 등을 설정
-
-    ==> 할일 : 저장소를 위한 PostsRepository 생성해야 한다
-              class : PostsRepository.java
-
-    PostsRepository.java
-    14. 저장소를 위한 interface
-        Posts 클래스로부터 DB 접근이 가능하게 해 줄 JpaRepository
-        MyBatis : DAO : Data Access Object
-                  cf. DTO : Data Transfer Object
-
-                  JpaRepository<클래스, PrimaryKey>
-                  이녀석을 상속받기만 하면 CRUD 메소드가 자동 생성된다
-
-                  Entity 클래스 = Posts
-                  Entity Repository = PostsRepository
-                  이 둘은 같은 위치에 있어야한다.(같은 package 안에 있어야한다)
-
-                  할 일 : 저장소 처리가 잘 되는 지 확인 ==> 단위테스트
-
-    PostsRepositoryTest.java
-    15. 단축키 설정 sysout
-    File > Settings > Keymap > Eclipse 선택
-
-    검색창 : Live Template
-        > 왼쪽 Editor > Live Template 선택
-        > 오른쪽 Java 하위목록 펼침
-        > sout~ 시작되는 항목 블록선택
-        > 오른쪽 마우스 change context 클릭
-        > java 선택 후 apply
-
-    PostsRepositoryTest.java
-    16. Annotation 설명
-    @AfterEach = @After 최신버전
-        각 단위 테스트가 끝날 때 마다 수행해야하는 작업 정의
-        테스트가 DB추가 -> 실제 데이터에 영향을 미칠 수 있다.
-        in-memory DB : H2DB
-        postsRepository.save()
-            INSERT / UPDATE 둘 중 하나를 수행
-            키 값 없으면 : Insert
-            키 값 있으면 : Update
-        insert into..
-        update mytable set ... where idx='idx'
-
-    postsRepository.findAll()
-        SELECT *
-        결과를 List Collection 에 add()
-
-    현재 : Test -> Success
-        내부적으로 어떤일을 수행하는지 확인 => Query 출력
-        => main/resources/application.properties 파일을 만들어서 세팅필요
-
-    application.properties
-    # 17. 단위테스트의 쿼리 확인
-    spring.jpa.show_sql = true
-
-    # 18. 쿼리를 mysql/maria 형태로 바꿔서 보기
-    spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect
-    spring.jpa.properties.hibernate.dialect.storage_engine=innodb
-    spring.datasource.hikari.jdbc-url=jdbc:h2:mem:testdb;MODE=MYSQL
-    spring.datasource.hikari.username=sa
-
-    # comment(주석)
-    # // single line comment
-    # /* mulit line comment */
-    # <!-- HTML -->
-    # # 설정파일인 경우
-    # ;
-    # -- db comment
-
-    PostsSaveRequestDto.java
-    18. 게시글 저장을 위한 데이터 덩어리 만들기
-        id, title, content, author
-        insert into posts (title, content, author) values (?, ?, ?);
-
-         +-----------------------+   +-----------+
-         |    Web Layer          |   |           |
-         |   (controllers) (3)   |   |    DTO(1) |
-         +-----------------------+   |           |
-         +-----------------------+   |           |
-         |    Service Layer(2)   |   +-----------+
-         |                       |   +-----------+
-         +-----------------------+   |  Domain   |
-         +-----------------------+   |  Model    |
-         |    Repository Layer   |   | (Entity)  |
-         |                       |   |  Posts    |
-         +-----------------------+   +-----------+
-
-    HelloControllerTest.java
-    19. Service 등록
-    자동으로 만들어지는 생성자
-    public PostsService(PostsRepository postsRepository)
+    private String name;
+    private int age;
+    public HelloResponseDto(String name, int age)
     {
-        this.postsRepository=postsRepository;
+        this.name = name;
+        this.age = age;
+    }
+    public String getName()
+    {
+        return this.name;
+    }
+    public int getAge()
+    {
+        return this.age;
     }
 
-    Transaction : All or Nothing (전부다 성공하거나, 전부 실패)
+    Lombok에 getter가 자동으로 생성.. => 확인
+    단위테스트로 확인 ==> main, test 구조가 같다.
 
-    PostsApiController.java
-    20. 작업 순서
-    Controller -------(DTO 주면서 저장요청)--------> Service 저장요청 ---------> DB
-    <form method="post" action="/api/v1/posts">
-                        <-- action="main.php?cmd=board&mode=insert" -->
-        <input type="text" name="title">
-        <textarea name="content"></textarea>
-        <button type="submit">저장</button>
-    </form>
+06. Getter가 자동으로 동작하는지 단위테스트
+작업파일 : HelloResponseDtoTest.java
 
-    PostsApiControllerTest.java
-    21. 단위테스트
-        HTML Request/Response
-        Client ----req----> Server
-               <---res----
+07 Getter 정상작동을 위해 추가
+작업파일 : bundle.gradle
 
-    PostsUpdateRequestDto.java
-    22. Post Update
+annotationProcessor('org.projectlombok:lombok')
+testImplementation('org.projectlombok:lombok')
+testAnnotationProcessor('org.projectlombok:lombok')
 
-    개발 순서
-    1) DTO
-    2) Service
-    3) Controller
+08. http://localhost:8080/dto?name=홍길동&age=12
+    http://localhost:8080/dto/?name=홍길동&age=12
+작업파일 : HelloController.java
 
-    PostsResponseDto.java
-    23. Request에 대한 응답 데이터 만들기
-        1
-                DTO(4)
-        2
-                Entity(5)
-        3
-        -> 5를 이용해 4를 만듬
+** 추가 확인사항 **
+REST vs. 이전 http://localhost/main.php?cmd=test&idx=3
+http://localhost/hello
+JSON(JavaScript Object Notation)를 매핑해준다
+Method의 종류 : GET, POST, PUT, DELETE
 
-    Posts.java
-    24. 데이터 지속성(Consistent : 객체와 Entity의 일치)
-        객체가 업데이트 되면 자동으로 DB데이터가 변경
+HTTP Error Code
+1xx : Trying
+2xx : OK                                    // 200 ok 하나밖에 없다
+3xx : Temporary Error, Redirection Error
+4xx : Permanent Error, Client Error
+      403 : Forbidden
+      404 : Not Found
+      405 : Method Not Allowed
+5xx : Server Error
+6xx : Global Error
 
-        실제 DB에 업데이트 되도록 만들기
+SpringBoot : POST(Insert), PUT(Update)을 구분
+cf, DELETE 삭제
 
-    PostsService.java
-    25. 업데이트를 위한 매핑(객체랑 DB)
-    등록 : /api/v1/posts      <-- 새글 등록
-    수정 : /api/v1/posts/3    <-- 3번글을 수정
-    1) DTO -> Service -> Controller
+09. 주석 없으므로 pass
 
-    PostsApiController.java
-    26. 수정을 위한 REST 등록
-        Method : POST, PUT(0), GET, DELETE
+10. http://localhost:8080/hello/dto/?name=홍길동&age=78
+작업파일 : Application.java
 
-        DTO -> Service -> Controller -> 단위테스트
+Application.java
+11. JPA
+Java Persistence API : 자바 지속성 API
+클래스 <-> DB 자동 Mapping
+기존 방식 : 프로그래밍의 대부분이 Query
+ORM(Object Relation Mapping)
+--> SQL의 종속성에서 벗어나게 하겠다.
 
-    PostsApiControllerTest.java
-    27. 수정하기 단위테스트
+CRUD (Create, Read, Update, Delete)
+    조회 : Member member = jpa.find(memberID)
+JPA를 사용할 때의 장점 : 수정이 매우 간단하다(유지보수)
+    객체(class)가 변경되면, 알아서 DB에 Update Query 날아간다.
 
-
-
-
-
-
-    http://localhost:8080/h2-console
-
-
-    조회
-    +-----------------------------+
-    |  Java Application           |
-    |                             |
-    |     +------------------+    |
-    |     | JPA              |    |
-    |     | +--------------+ |    |            +---------+
-    |     | |  JDBC        + +----+---SQL--->  |   DB    |
-    |     | |  API         + +<---+---Ret----  |         |
-    |     | +--------------+ |    |            +---------+
-    |     +------------------+    |
-    +-----------------------------+
-
-    저장
-    +---------------------------------------------+
-    |                                             |
-    |   +-----------+              +------------+ |
-    |   |           |   (Entity)   | JPA        | |
-    |   |   Member  | --Persist -->|  +-------+ | |
-    |   |   DAO     |              |  | JDBC  | + +---(insert SQL) ---> DB
-    |   |           |              |  +-------+ | |
-    |   +-----------+              +------------+ |
-    |                                             |
-    +---------------------------------------------+
++--------------------------+
+|  Java Application        |
+|  +--------------------+  |
+|  | JPA                |  |
+|  |  +--------------+  |  |           +----------+
+|  |  |   JDBC API   |- |- |----SQL--->|   DB     |
+|  |  |              |<-|- |---------- |          |
+|  |  +--------------+  |  |           + ---------+
+|  +--------------------+  |
++-------------------------+
 
 
-    저장
-    +---------------------------------------------+
-    |                                             |
-    |   +-----------+              +------------+ |
-    |   |           |              | JPA        | |
-    |   |   Member  |--find(id)--->|  +-------+ | |                     +------+
-    |   |   DAO     |              |  | JDBC  | + +---(insert SQL) ---> |  DB  |
-    |   |           |    (entity)  |  | API   | | |<------ Ret -------- |      |
-    |   |           |<-- (object) -|  +-------+ | |                     +------+
-    |   +-----------+              +------------+ |
-    |                                             |
-    +---------------------------------------------+
+bundle.gradle
+12. JPA : use in-memory database H2DB ==> sync refresh
+implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+implementation('com.h2database:h2')
+
+testImplementation ('org.springframework.boot:spring-boot-starter-test')
+
+
+Posts.java
+13. 게시글 관련 클래스 정의
+<form method='post' enctype='multipart/form-data' action='a.jpg'>
+    <input type='file' name='upfile'>
+</form>
+
+@Entity : JPA 에서 필요한 Annotation
+    테이블과 클래스를 매핑해준다.
+    Posts.java  ->  posts 데이터베이스 테이블 매핑
+        myFamilyCount   (Camel 표기법)
+        my_family_count (Snake 표기법, Linux 이름짓는 방식) -> JPA 에선 사용하지 않는걸 추천
+
+@Id : 데이터베이스의 키 값
+@GeneratedValue : 키 생성
+@Column : 데이터베이스 테이블을 내부적으로 생성해줄 때 사이즈 등을 설정
+
+==> 할일 : 저장소를 위한 PostsRepository 생성해야 한다
+          class : PostsRepository.java
+
+PostsRepository.java
+14. 저장소를 위한 interface
+    Posts 클래스로부터 DB 접근이 가능하게 해 줄 JpaRepository
+    MyBatis : DAO : Data Access Object
+              cf. DTO : Data Transfer Object
+
+              JpaRepository<클래스, PrimaryKey>
+              이녀석을 상속받기만 하면 CRUD 메소드가 자동 생성된다
+
+              Entity 클래스 = Posts
+              Entity Repository = PostsRepository
+              이 둘은 같은 위치에 있어야한다.(같은 package 안에 있어야한다)
+
+              할 일 : 저장소 처리가 잘 되는 지 확인 ==> 단위테스트
+
+PostsRepositoryTest.java
+15. 단축키 설정 sysout
+File > Settings > Keymap > Eclipse 선택
+
+검색창 : Live Template
+    > 왼쪽 Editor > Live Template 선택
+    > 오른쪽 Java 하위목록 펼침
+    > sout~ 시작되는 항목 블록선택
+    > 오른쪽 마우스 change context 클릭
+    > java 선택 후 apply
+
+PostsRepositoryTest.java
+16. Annotation 설명
+@AfterEach = @After 최신버전
+    각 단위 테스트가 끝날 때 마다 수행해야하는 작업 정의
+    테스트가 DB추가 -> 실제 데이터에 영향을 미칠 수 있다.
+    in-memory DB : H2DB
+    postsRepository.save()
+        INSERT / UPDATE 둘 중 하나를 수행
+        키 값 없으면 : Insert
+        키 값 있으면 : Update
+    insert into..
+    update mytable set ... where idx='idx'
+
+postsRepository.findAll()
+    SELECT *
+    결과를 List Collection 에 add()
+
+현재 : Test -> Success
+    내부적으로 어떤일을 수행하는지 확인 => Query 출력
+    => main/resources/application.properties 파일을 만들어서 세팅필요
+
+application.properties
+# 17. 단위테스트의 쿼리 확인
+spring.jpa.show_sql = true
+
+# 18. 쿼리를 mysql/maria 형태로 바꿔서 보기
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect
+spring.jpa.properties.hibernate.dialect.storage_engine=innodb
+spring.datasource.hikari.jdbc-url=jdbc:h2:mem:testdb;MODE=MYSQL
+spring.datasource.hikari.username=sa
+
+# comment(주석)
+# // single line comment
+# /* mulit line comment */
+# <!-- HTML -->
+# # 설정파일인 경우
+# ;
+# -- db comment
+
+PostsSaveRequestDto.java
+18. 게시글 저장을 위한 데이터 덩어리 만들기
+    id, title, content, author
+    insert into posts (title, content, author) values (?, ?, ?);
+
+     +-----------------------+   +-----------+
+     |    Web Layer          |   |           |
+     |   (controllers) (3)   |   |    DTO(1) |
+     +-----------------------+   |           |
+     +-----------------------+   |           |
+     |    Service Layer(2)   |   +-----------+
+     |                       |   +-----------+
+     +-----------------------+   |  Domain   |
+     +-----------------------+   |  Model    |
+     |    Repository Layer   |   | (Entity)  |
+     |                       |   |  Posts    |
+     +-----------------------+   +-----------+
+
+HelloControllerTest.java
+19. Service 등록
+자동으로 만들어지는 생성자
+public PostsService(PostsRepository postsRepository)
+{
+    this.postsRepository=postsRepository;
+}
+
+Transaction : All or Nothing (전부다 성공하거나, 전부 실패)
+
+PostsApiController.java
+20. 작업 순서
+Controller -------(DTO 주면서 저장요청)--------> Service 저장요청 ---------> DB
+<form method="post" action="/api/v1/posts">
+                    <-- action="main.php?cmd=board&mode=insert" -->
+    <input type="text" name="title">
+    <textarea name="content"></textarea>
+    <button type="submit">저장</button>
+</form>
+
+PostsApiControllerTest.java
+21. 단위테스트
+    HTML Request/Response
+    Client ----req----> Server
+           <---res----
+
+PostsUpdateRequestDto.java
+22. Post Update
+
+개발 순서
+1) DTO
+2) Service
+3) Controller
+
+PostsResponseDto.java
+23. Request에 대한 응답 데이터 만들기
+    1
+            DTO(4)
+    2
+            Entity(5)
+    3
+    -> 5를 이용해 4를 만듬
+
+Posts.java
+24. 데이터 지속성(Consistent : 객체와 Entity의 일치)
+    객체가 업데이트 되면 자동으로 DB데이터가 변경
+
+    실제 DB에 업데이트 되도록 만들기
+
+PostsService.java
+25. 업데이트를 위한 매핑(객체랑 DB)
+등록 : /api/v1/posts      <-- 새글 등록
+수정 : /api/v1/posts/3    <-- 3번글을 수정
+1) DTO -> Service -> Controller
+
+PostsApiController.java
+26. 수정을 위한 REST 등록
+    Method : POST, PUT(0), GET, DELETE
+
+    DTO -> Service -> Controller -> 단위테스트
+
+PostsApiControllerTest.java
+27. 수정하기 단위테스트
+
+
+
+
+http://localhost:8080/h2-console
+
+조회
++-----------------------------+
+|  Java Application           |
+|                             |
+|     +------------------+    |
+|     | JPA              |    |
+|     | +--------------+ |    |            +---------+
+|     | |  JDBC        + +----+---SQL--->  |   DB    |
+|     | |  API         + +<---+---Ret----  |         |
+|     | +--------------+ |    |            +---------+
+|     +------------------+    |
++-----------------------------+
+
+저장
++---------------------------------------------+
+|                                             |
+|   +-----------+              +------------+ |
+|   |           |   (Entity)   | JPA        | |
+|   |   Member  | --Persist -->|  +-------+ | |
+|   |   DAO     |              |  | JDBC  | + +---(insert SQL) ---> DB
+|   |           |              |  +-------+ | |
+|   +-----------+              +------------+ |
+|                                             |
++---------------------------------------------+
+
+
+저장
++---------------------------------------------+
+|                                             |
+|   +-----------+              +------------+ |
+|   |           |              | JPA        | |
+|   |   Member  |--find(id)--->|  +-------+ | |                     +------+
+|   |   DAO     |              |  | JDBC  | + +---(insert SQL) ---> |  DB  |
+|   |           |    (entity)  |  | API   | | |<------ Ret -------- |      |
+|   |           |<-- (object) -|  +-------+ | |                     +------+
+|   +-----------+              +------------+ |
+|                                             |
++---------------------------------------------+
