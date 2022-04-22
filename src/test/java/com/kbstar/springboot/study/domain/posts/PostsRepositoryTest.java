@@ -31,8 +31,6 @@ import static org.assertj.core.api.Assertions.assertThat;
     현재 : Test -> Success
         내부적으로 어떤일을 수행하는지 확인 => Query 출력
         => main/resources/application.properties 파일을 만들어서 세팅필요
-
-
  */
 
 @ExtendWith(SpringExtension.class)

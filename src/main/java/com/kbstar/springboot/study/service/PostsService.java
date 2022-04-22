@@ -5,7 +5,9 @@ import com.kbstar.springboot.study.domain.posts.PostsRepository;
 import com.kbstar.springboot.study.web.dto.PostsSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import javax.transaction.Transactional;
+
 
 /*
     19. Service 등록
