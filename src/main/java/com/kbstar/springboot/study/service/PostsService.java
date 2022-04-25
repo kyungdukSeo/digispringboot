@@ -77,5 +77,10 @@ public class PostsService
                 .collect(Collectors.toList());
     }
 
+    /*
+        람다식 ES6
+        .map(PostsListResponseDto::new)
+        = .map(posts->new PostsListResponseDto(posts))
+     */
 
 }

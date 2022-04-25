@@ -1,6 +1,9 @@
 package com.kbstar.springboot.study.web;
 
+import com.kbstar.springboot.study.service.PostsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /*
@@ -13,12 +16,32 @@ import org.springframework.web.bind.annotation.GetMapping;
     resources/templates/layout 폴더
                                /header.mustache
  */
+
+@RequiredArgsConstructor
 @Controller
 public class IndexController
 {
+    /*
     @GetMapping("/")
     public String index()
     {
+        return "index";
+    }
+     */
+
+
+    private final PostsService postsService;
+    /*
+        public IndexController(PostsService postsService)
+        {
+            this.postsService = postsService;
+        }
+     */
+
+    @GetMapping("/")
+    public String index(Model model)
+    {
+        model.addAttribute("posts", postsService.findAllDesc());
         return "index";
     }
 
@@ -26,7 +49,6 @@ public class IndexController
     @GetMapping("/posts/printWrite")
     public String postWrite()
     {
-
         return "posts-print-write";
     }
 }
