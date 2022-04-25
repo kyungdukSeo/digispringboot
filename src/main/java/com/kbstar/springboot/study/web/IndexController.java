@@ -21,4 +21,12 @@ public class IndexController
     {
         return "index";
     }
+
+    // printWrite
+    @GetMapping("/posts/printWrite")
+    public String postWrite()
+    {
+
+        return "posts-print-write";
+    }
 }
