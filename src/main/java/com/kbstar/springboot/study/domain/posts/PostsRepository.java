@@ -2,6 +2,10 @@ package com.kbstar.springboot.study.domain.posts;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
+
 /*
     14. 저장소를 위한 interface
     Posts 클래스로부터 DB 접근이 가능하게 해 줄 JpaRepository
@@ -20,5 +24,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface PostsRepository extends JpaRepository<Posts, Long> 
 {
-    
+    @Query("SELECT p FROM posts p ORDER BY p.id DESC")
+    List<Posts> finalAllDesc();
+
 }
+
+/*
+    38. 여기서 사용하는 쿼리는 RDB와 약간 차이가 있다. JPQL
+ */

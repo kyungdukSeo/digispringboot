@@ -3,13 +3,16 @@ package com.kbstar.springboot.study.service;
 
 import com.kbstar.springboot.study.domain.posts.Posts;
 import com.kbstar.springboot.study.domain.posts.PostsRepository;
+import com.kbstar.springboot.study.web.dto.PostsListResponseDto;
 import com.kbstar.springboot.study.web.dto.PostsResponseDto;
 import com.kbstar.springboot.study.web.dto.PostsSaveRequestDto;
 import com.kbstar.springboot.study.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /*
     19. Service 등록
@@ -63,4 +66,16 @@ public class PostsService
         Posts posts = postsRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("No id for Post findById(id).orElseThrow : " + id));
         return new PostsResponseDto(posts);
     }
+
+    @Transactional(readOnly = true)     // select 일때만 readOnly option 사용가능, 성능개선을 위해..
+    public List<PostsListResponseDto> findAllDesc()
+    {
+        return postsRepository
+                .finalAllDesc()
+                .stream()
+                .map(PostsListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+
 }
