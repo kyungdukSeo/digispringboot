@@ -1,10 +1,12 @@
 package com.kbstar.springboot.study.web;
 
 import com.kbstar.springboot.study.service.PostsService;
+import com.kbstar.springboot.study.web.dto.PostsResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /*
     34. IndexController.java
@@ -51,4 +53,21 @@ public class IndexController
     {
         return "posts-print-write";
     }
+
+    @GetMapping("/posts/show/{id}")
+    public String postShow(@PathVariable Long id, Model model)
+    {
+        PostsResponseDto dto = postsService.findById(id);
+        model.addAttribute("posts", dto);
+        return "posts-show" ;
+    }
+
+    @GetMapping("/posts/update/{id}")
+    public String postUpdate(@PathVariable Long id, Model model)
+    {
+        PostsResponseDto dto = postsService.findById(id);
+        model.addAttribute("posts", dto);
+        return "posts-print-update";
+    }
+
 }

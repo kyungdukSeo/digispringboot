@@ -77,6 +77,17 @@ public class PostsService
                 .collect(Collectors.toList());
     }
 
+    @Transactional
+    public void delete(Long id)
+    {
+        Posts posts = postsRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("No id for Post findById(id).orElseThrow : " + id));
+
+        postsRepository.delete(posts);
+    }
+
+
+
+
     /*
         람다식 ES6
         .map(PostsListResponseDto::new)

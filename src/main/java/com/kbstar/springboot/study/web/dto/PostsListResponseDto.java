@@ -11,7 +11,7 @@ public class PostsListResponseDto
     private String content;     // 가져는 오지만 목록보기에서 사용하지 않을 예정
     private String author;
     private LocalDateTime createDate;
-    private LocalDateTime modifiedDate;
+    private String modifiedDate;
 
     public PostsListResponseDto(Posts entity)
     {

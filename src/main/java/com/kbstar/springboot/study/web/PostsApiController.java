@@ -43,14 +43,22 @@ public class PostsApiController
         DTO -> Service -> Controller -> 단위테스트
 
      */
-    @PutMapping("/api/v1/posts/{id}")
+    @PutMapping("/api/v1/posts/{id}")   // 수정
     public Long update(@PathVariable Long id,
                        @RequestBody PostsUpdateRequestDto requestDto)
     {
         return postsService.update(id, requestDto);
     }
+    @DeleteMapping("/api/v1/posts/{id}")
+    public Long delete(@PathVariable Long id)
+    {
+        postsService.delete(id);
+        return id;
+    }
 
-    @GetMapping("/api/v1/posts/{id}")
+
+
+    @GetMapping("/api/v1/posts/{id}")   // id에 해당하는 글 보여주기
     public PostsResponseDto findById(@PathVariable Long id)
     {
         return postsService.findById(id);

@@ -7,7 +7,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 
@@ -31,10 +34,24 @@ import java.time.LocalDateTime;
 public class BaseTimeEntity
 {
     @CreatedDate
-    private LocalDateTime createDate;
+    // private LocalDateTime createDate;
+    private String createDate;
 
     @LastModifiedDate
-    private LocalDateTime modifiedDate;
+    // private LocalDateTime modifiedDate;
+    private String modifiedDate;
 
+    @PrePersist
+    public void onPrePersist()  // 해당 Entity를 DB넣기전에(저장하기전에) 미리 내부적으로 처리(실행)
+    {
+        this.createDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd HH:mm"));
+        this.modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd HH:mm"));
+    }
+
+    @PreUpdate
+    public void onPreUpdate()  // 해당 Entity를 수정하기전에 미리 내부적으로 처리(실행)
+    {
+        this.modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd HH:mm"));
+    }
 
 }
