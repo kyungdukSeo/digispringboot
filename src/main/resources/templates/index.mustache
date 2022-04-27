@@ -40,6 +40,17 @@
                 <span class="material-icons">edit</span> 글쓰기
             </button>
         </div>
+
+        <div class="col colLine text-end">
+            {{#userName}}
+                <button type="button" class="btn btn-success" onclick="location.href='/logout'">{{userName}} 로그아웃</button>
+            {{/userName}}
+
+            <!-- not 없으면, else : ^ -->
+            {{^userName}}
+                <button type="button" class="btn btn-primary" onclick="location.href='/oauth2/authorization/google'">구글 로그인</button>
+            {{/userName}}
+        </div>
     </div>
 
     <!-- 번호, 제목, 작성자, 수정일   -->
