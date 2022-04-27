@@ -426,6 +426,20 @@ footer.mustache
     index.mustache 파일이 PHP의 include 하듯이 구조가 변경 가능
 
 
+--------------------2022-04-27---------------------
+
+create table posts(
+id  bigint(20)  auto_increment,
+title   varchar(200),
+content text(4000),
+author  char(200),
+create_date datetime,   --createDate
+modified_date   datetime,
+primary key(id)
+);
+
+
+
 
 
 
