@@ -25,6 +25,8 @@ public class PostsResponseDto
     private String title;
     private String content;     // 가져는 오지만 목록보기에서 사용하지 않을 예정
     private String author;
+    private int view;
+    private int rec;
 
     public PostsResponseDto(Posts entity)
     {
@@ -33,7 +35,8 @@ public class PostsResponseDto
         this.title = entity.getTitle();
         this.content = entity.getContent();
         this.author = entity.getAuthor();
-
+        this.view = entity.getView();
+        this.rec = entity.getRec();
     }
 
 }

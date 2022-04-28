@@ -49,14 +49,20 @@ public class PostsApiController
     {
         return postsService.update(id, requestDto);
     }
+
+    @PostMapping("/api/v1/rec/{id}")   // 수정
+    public int increaseRecommend(@PathVariable Long id)
+    {
+        return postsService.increaseRecommend(id);
+    }
+
+
     @DeleteMapping("/api/v1/posts/{id}")
     public Long delete(@PathVariable Long id)
     {
         postsService.delete(id);
         return id;
     }
-
-
 
     @GetMapping("/api/v1/posts/{id}")   // id에 해당하는 글 보여주기
     public PostsResponseDto findById(@PathVariable Long id)

@@ -61,6 +61,19 @@ public class PostsService
         return id;
     }
 
+    @Transactional
+    public int updateView(Long id)
+    {
+        return postsRepository.updateView(id);
+    }
+
+    @Transactional
+    public int increaseRecommend(Long id)
+    {
+        return postsRepository.increaseRecommend(id);
+    }
+
+
     public PostsResponseDto findById(Long id)
     {
         Posts posts = postsRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("No id for Post findById(id).orElseThrow : " + id));
@@ -71,7 +84,7 @@ public class PostsService
     public List<PostsListResponseDto> findAllDesc()
     {
         return postsRepository
-                .finalAllDesc()
+                .findAllDesc()
                 .stream()
                 .map(PostsListResponseDto::new)
                 .collect(Collectors.toList());

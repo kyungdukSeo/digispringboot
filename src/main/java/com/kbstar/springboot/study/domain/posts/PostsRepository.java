@@ -2,7 +2,9 @@ package com.kbstar.springboot.study.domain.posts;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -25,7 +27,15 @@ import java.util.List;
 public interface PostsRepository extends JpaRepository<Posts, Long> 
 {
     @Query("SELECT p FROM Posts p ORDER BY p.id DESC")
-    List<Posts> finalAllDesc();
+    List<Posts> findAllDesc();
+    @Modifying // data에 영향을 미치는 경우 사용 insert, delete, update
+    @Query("UPDATE Posts p SET p.view = p.view + 1 WHERE p.id = :id ")
+    int updateView(Long id);
+    //    int updateView(@Param("id") Long id);   --> 버전 안맞으면 param 써줘야..
+
+    @Modifying
+    @Query("UPDATE Posts p SET p.rec = p.rec + 1 WHERE p.id = :id ")
+    int increaseRecommend(Long id);
 
 }
 

@@ -15,6 +15,10 @@ var main = {
         $('#btn-delete').on('click', function(){
             _this.delete();
         });
+
+        $('#btn-rec').on('click', function(){
+            _this.rec();
+        });
     },
 
     save : function(){
@@ -23,6 +27,8 @@ var main = {
             content : $('#content').val(),
             author : $('#author').val()
         };
+
+        // 여기서 required 확인하는 코드 필요          required 는 submit 일때 작동하는데 우리는 현재 클릭시 js로 처리중
 
         $.ajax({
                 type: 'POST',
@@ -84,12 +90,32 @@ var main = {
             .fail(function(error){
                 alert(error);
             });
-
         }else
         {
-
+            // 취소..
         }
+    },
 
+    rec : function(){
+        let id = $("#id").val();
+        // alert('추천 글 번호 = ' + id);
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/v1/rec/' + id,
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8'
+        })
+        .done(function(data){
+            alert('추천되었습니다. :');
+
+            let idRec = $("#idRec");
+            let newRec = parseInt(idRec.html()) +1;
+            idRec.html(newRec);
+        })
+        .fail(function(error){
+            alert(JSON.stringify(error));
+        });
     }
 }
 
