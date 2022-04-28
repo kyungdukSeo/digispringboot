@@ -50,7 +50,7 @@ public class PostsApiController
         return postsService.update(id, requestDto);
     }
 
-    @PostMapping("/api/v1/rec/{id}")   // 수정
+    @PostMapping("/api/v1/rec/{id}")   // 추천
     public int increaseRecommend(@PathVariable Long id)
     {
         return postsService.increaseRecommend(id);

@@ -8,6 +8,9 @@ import com.kbstar.springboot.study.web.dto.PostsResponseDto;
 import com.kbstar.springboot.study.web.dto.PostsSaveRequestDto;
 import com.kbstar.springboot.study.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,6 +77,11 @@ public class PostsService
     }
 
 
+    public Page<Posts> pageList(Pageable pageable)
+    {
+        return postsRepository.findAll(pageable);       // postsRepository.findAllPage
+    }
+
     public PostsResponseDto findById(Long id)
     {
         Posts posts = postsRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("No id for Post findById(id).orElseThrow : " + id));
@@ -97,8 +105,6 @@ public class PostsService
 
         postsRepository.delete(posts);
     }
-
-
 
 
     /*

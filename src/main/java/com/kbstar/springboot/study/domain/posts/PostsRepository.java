@@ -1,6 +1,8 @@
 package com.kbstar.springboot.study.domain.posts;
 
 
+import org.h2.mvstore.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -36,6 +38,9 @@ public interface PostsRepository extends JpaRepository<Posts, Long>
     @Modifying
     @Query("UPDATE Posts p SET p.rec = p.rec + 1 WHERE p.id = :id ")
     int increaseRecommend(Long id);
+
+    // @Query("SELECT p FROM Posts p ORDER BY p.id DESC")
+    // Page<Posts> findAllPage(@Param("pageable") Pageable Pageable);
 
 }
 
