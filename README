@@ -433,6 +433,8 @@ id  bigint(20)  auto_increment,
 title   varchar(200),
 content text(4000),
 author  char(200),
+rec int(20),
+view int(20),
 create_date datetime,   --createDate
 modified_date   datetime,
 primary key(id)
