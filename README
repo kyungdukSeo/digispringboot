@@ -439,6 +439,176 @@ primary key(id)
 );
 
 
+--------------------2022-04-29---------------------
+
+http://localhost:8080/hello/dto/?name=홍길동&age=12
+
+JSON : Javascript Object Notation
+
+{"name":"홍길동","age":12}
+
+{
+    "name" : "홍길동",
+    "age" : 12
+}
+
+{
+    "name" : "홍길동",
+    "age" : 12,
+    "company" : {
+        "name" : "KB국민은행",
+        "http" : "http://kbstar.com"
+    },
+    "address" : "서울"
+}
+
+{
+    "person" : {
+        "name" : "홍길동",
+        "age" : 12
+    },
+    "company" : {
+        "name" : "국민은행",
+        "hq" : "서울"
+    }
+}
+
+{
+    "employee" : [   // [] : 리스트
+        {
+            "name" : "홍길동",
+            "age" : 12
+        },
+        { "name" : "이순신", "age" : 34 },
+        { "name" : "세종", "age" : 45 }
+    ],
+
+    "employer" : [
+
+    ]
+}
+
+---------------- Mustache 표기법 ----------------
+
+{{! comment }}
+
+1. 변수 {{ 변수이름 }}
+
+{
+    "name" : "홍길동",
+    "age" : 12
+}
+
+                                    "<홍길동>"
+{{ name }}      {{! 홍길동 }}
+{{ age }}       {{! 12 }}
+{{ company }}   {{! none }}         &lt;홍길동&gt;
+{{{ name }}}      {{! 홍길동 }}      <홍길동>
+
+
+{
+    "name" : "홍길동",
+    "age" : 12,
+    "company" : {
+        "name" : "KB국민은행",
+        "http" : "http://kbstar.com"
+    },
+    "address" : "서울"
+}
+
+{{ name }} --> 홍길동
+{{ company.name }}  --> 국민은행
+{{ company.http }}  --> https://kbstar.com
+{{ company }}       --> "name" : "국민은행", "http" : "http://kbstar.com"
+
+
+2. Section : 조건문, 반복문
+
+    {{#변수명}} ~~~ {{/변수명}}
+
+    2-1. 조건문
+    {
+        "name" : "홍길동"
+    }
+
+    {{#name}}
+        이사람의 이름은 {{name}} 입니다.
+    {{/name}}
+    {{^name}}
+        사람 없음
+    {{/name}}
+
+    {
+        "person" : { "name" : "홍길동", "age" : 12 }
+        "company" : { "name" : "국민은행" }
+    }
+
+    {{#person}}
+        {{name}} 의 회사명은 {{company.name}} 입니다.
+    {{/person}}
+
+
+    2-2. 반복문
+
+    {
+        "member" : [
+            {"name" : "홍길동"},
+            {"name" : "이순신"},
+            {"name" : "세종"},
+        ]
+    }
+
+    {{#member}}
+        {{name}}
+    {{/member}}
+
+
+    2-3. 반전 섹션 : not ^      (! 은 comment 에 썼음)
+
+    {
+        "member" : []
+    }
+
+    {{#member}}
+        {{name}}
+    {{/member}}
+    {{^member}}
+        사람 없음
+    {{/member}}
+
+
+3. 부분 템플릿 : Partial Template    기호 : >
+
+    Java : import, PHP : include
+
+    {{>layout/header}}
+
+    ==== user.mustache ====
+    내 이름은 {{name}} 입니다.
+    =======================
+
+    ==== index.mustache ===
+    <div>Include</div>
+    {{#names}}
+        {{>user}}
+    {{/names}}
+    =======================
+
+4. 구분자( {{, }} )    : 참고용
+
+    일반적 {{ default_variable }}
+
+    {{=<% %>=}} or
+    {{=<? ?>=}}
+
+    ex, php 가 익숙한 개발자의 경우 <? ?> 를 선호할 수있음.
+    <? name ?>
+
+    되돌아 오려면
+    {{={{ }}=}}
+
+
+
 
 
 
