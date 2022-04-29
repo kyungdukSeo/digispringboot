@@ -1,8 +1,11 @@
 package com.kbstar.springboot.study.web;
 
+import com.kbstar.springboot.study.domain.posts.Posts;
 import com.kbstar.springboot.study.service.PostsService;
 import com.kbstar.springboot.study.web.dto.PostsResponseDto;
+import javassist.compiler.ast.Keyword;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -10,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 /*
     34. IndexController.java
@@ -46,13 +51,19 @@ public class IndexController
     @GetMapping("/")
     public String index(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 2) Pageable pageable)
     {
+        Page<Posts> pageList = postsService.pageList(pageable);
+
         // model.addAttribute("posts", postsService.findAllDesc());     // 전체 다가져오기
-        model.addAttribute("posts", postsService.pageList(pageable));   // 페이징 처리
+        model.addAttribute("posts", pageList);   // 페이징 처리해서 가져오기
         model.addAttribute("prev", pageable.previousOrFirst().getPageNumber());
         model.addAttribute("next", pageable.next().getPageNumber());
 
-        model.addAttribute("hasPrev", pageable.hasPrevious());
-//        model.addAttribute("hasNext", pageable.);
+        // model.addAttribute("hasPrev", pageable.hasPrevious());
+        // model.addAttribute("hasNext", pageable.);
+
+        model.addAttribute("hasPrev", pageList.hasPrevious());
+        model.addAttribute("hasNext", pageList.hasNext());
+
         return "index";
     }
 
@@ -73,6 +84,24 @@ public class IndexController
         model.addAttribute("posts", dto);
         return "posts-show" ;
     }
+
+    @GetMapping("/posts/search")
+    public String search(String keyword, Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 2) Pageable pageable)
+    {
+        // List<Posts> searchList = postsService.search(keyword);
+        Page<Posts> searchList = postsService.search(keyword, pageable);
+
+        model.addAttribute("searchList", searchList);
+
+//        model.addAttribute("hasPrev", searchList.hasPrevious());
+//        model.addAttribute("hasNext", searchList.hasNext());
+//        model.addAttribute("keyword", keyword);
+
+
+        return "posts-search";
+    }
+
+
 
     @GetMapping("/posts/update/{id}")
     public String postUpdate(@PathVariable Long id, Model model)

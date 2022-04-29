@@ -27,6 +27,13 @@ html, body {
 .colLine { line-height:200%; min-height:30px; border-bottom:1px dotted #DDDDDD; padding-top:4px; padding-bottom:4px;}
 .icon { vertical-align: text-bottom;}
 
+.tagControl{
+    white-space:pre;
+}
+
+
+
+
 /* .carousel .carousel-indicators {background-color: rgb(0, 255, 42);}
 .carousel .carousel-indicators.active {background-color: blue;}
 .carousel-indicators-round{ width: 14px; height: 14px; border-radius: 100%; } */

@@ -1,7 +1,8 @@
 package com.kbstar.springboot.study.domain.posts;
 
 
-import org.h2.mvstore.Page;
+
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,7 +25,10 @@ import java.util.List;
               이 둘은 같은 위치에 있어야한다.(같은 package 안에 있어야한다)
               
               할 일 : 저장소 처리가 잘 되는 지 확인 ==> 단위테스트
-    
+
+ */
+/*
+    38. 여기서 사용하는 쿼리는 RDB와 약간 차이가 있다. JPQL
  */
 public interface PostsRepository extends JpaRepository<Posts, Long> 
 {
@@ -42,8 +46,11 @@ public interface PostsRepository extends JpaRepository<Posts, Long>
     // @Query("SELECT p FROM Posts p ORDER BY p.id DESC")
     // Page<Posts> findAllPage(@Param("pageable") Pageable Pageable);
 
-}
 
-/*
-    38. 여기서 사용하는 쿼리는 RDB와 약간 차이가 있다. JPQL
- */
+    // Select * from where title title like'%key%'
+    // List<Posts> findByTitleContaining(String key);
+    // 검색 전체 목록
+
+    Page<Posts> findByTitleContaining(String key, Pageable pageable);
+    // 검색 페이지 단위로
+}

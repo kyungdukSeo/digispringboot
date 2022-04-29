@@ -609,7 +609,13 @@ JSON : Javascript Object Notation
 
 
 
+참고 코드
 
+if($upfile)
+{
+    $filename = $upfile_name
+    $size = $upfile_size
+}
 
 
 

@@ -106,11 +106,20 @@ public class PostsService
         postsRepository.delete(posts);
     }
 
+    @Transactional(readOnly = true)
+    public Page<Posts> search(String keyword, Pageable pageable)
+    {
+        // List<Posts> postsList = postsRepository.findByTitleContaining(keyword);
+
+        Page<Posts> postsList = postsRepository.findByTitleContaining(keyword, pageable);
+
+        return postsList;
+    }
+
 
     /*
         람다식 ES6
         .map(PostsListResponseDto::new)
         = .map(posts->new PostsListResponseDto(posts))
      */
-
 }
