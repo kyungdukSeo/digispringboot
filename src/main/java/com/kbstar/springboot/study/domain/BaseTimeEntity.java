@@ -44,14 +44,14 @@ public class BaseTimeEntity
     @PrePersist
     public void onPrePersist()  // 해당 Entity를 DB넣기전에(저장하기전에) 미리 내부적으로 처리(실행)
     {
-        this.createDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd HH:mm"));
-        this.modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd HH:mm"));
+        this.createDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
     @PreUpdate
     public void onPreUpdate()  // 해당 Entity를 수정하기전에 미리 내부적으로 처리(실행)
     {
-        this.modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-mm-dd HH:mm"));
+        this.modifiedDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
 }

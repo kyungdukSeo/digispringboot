@@ -1,5 +1,6 @@
 package com.kbstar.springboot.study.web;
 
+import com.kbstar.springboot.study.config.auth.LoginUser;
 import com.kbstar.springboot.study.config.auth.dto.SessionUser;
 import com.kbstar.springboot.study.domain.posts.Posts;
 import com.kbstar.springboot.study.service.PostsService;
@@ -47,19 +48,21 @@ public class IndexController
         }
      */
 
-
-    private final HttpSession httpSession;
     // for google login
+    // private final HttpSession httpSession;
 
 
 
     @GetMapping("/")
-    public String index(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 3) Pageable pageable)
+    public String index(Model model,
+                        @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 3) Pageable pageable,
+                        @LoginUser SessionUser user)
     {
         Page<Posts> pageList = postsService.pageList(pageable);
 
         // google login
-        SessionUser user = (SessionUser)httpSession.getAttribute("user");
+        // SessionUser user = (SessionUser)httpSession.getAttribute("user");
+
         if(user != null)
         {
             model.addAttribute("kbUserName", user.getName());
