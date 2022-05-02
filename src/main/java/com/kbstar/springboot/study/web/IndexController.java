@@ -1,9 +1,9 @@
 package com.kbstar.springboot.study.web;
 
+import com.kbstar.springboot.study.config.auth.dto.SessionUser;
 import com.kbstar.springboot.study.domain.posts.Posts;
 import com.kbstar.springboot.study.service.PostsService;
 import com.kbstar.springboot.study.web.dto.PostsResponseDto;
-import javassist.compiler.ast.Keyword;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
+import javax.servlet.http.HttpSession;
 
 /*
     34. IndexController.java
@@ -39,7 +39,6 @@ public class IndexController
     }
      */
 
-
     private final PostsService postsService;
     /*
         public IndexController(PostsService postsService)
@@ -48,10 +47,24 @@ public class IndexController
         }
      */
 
+
+    private final HttpSession httpSession;
+    // for google login
+
+
+
     @GetMapping("/")
     public String index(Model model, @PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 3) Pageable pageable)
     {
         Page<Posts> pageList = postsService.pageList(pageable);
+
+        // google login
+        SessionUser user = (SessionUser)httpSession.getAttribute("user");
+        if(user != null)
+        {
+            model.addAttribute("userName", user.getName());
+        }
+
 
         // model.addAttribute("posts", postsService.findAllDesc());     // 전체 다가져오기
         model.addAttribute("posts", pageList);   // 페이징 처리해서 가져오기
@@ -104,8 +117,6 @@ public class IndexController
         return "posts-search";
     }
 
-
-
     @GetMapping("/posts/update/{id}")
     public String postUpdate(@PathVariable Long id, Model model)
     {
@@ -113,5 +124,8 @@ public class IndexController
         model.addAttribute("posts", dto);
         return "posts-print-update";
     }
+
+
+
 
 }
