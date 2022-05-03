@@ -1,3 +1,12 @@
+/*
+    PostsService.java
+    게시판 서비스에 필요한 기능들을 함수로 정의해둔 파일
+    Posts 클래스, PostsRepository 인터페이스 에 정의된 DB의 컬럼들을 통해 DB에 직접적인 영향을 주는경우
+    @Transactional 어노테이션을 통해 트랜잭션이 처음부터 끝까지 정상적으로 완료되는것을 담보한다.
+
+ */
+
+
 package com.kbstar.springboot.study.service;
 
 

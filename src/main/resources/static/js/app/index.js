@@ -1,4 +1,10 @@
 // index.js
+/*
+    저장(save), 수정(update), 삭제(delete), 추천(recommend) 기능을
+    ajax를 통해 수행하고,
+    게시판 화면에 alert을 표출해주는 기능 제공
+*/
+
 
 var main = {
     init : function(){

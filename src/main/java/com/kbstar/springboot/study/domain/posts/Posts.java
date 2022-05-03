@@ -1,3 +1,15 @@
+/*
+    Posts.java
+    DB에 테이블을 생성하고,
+    연동되는 DB와 클래스를 매핑해주는 역할을 수행하는 파일로
+    해당 테이블의 컬럼을 설정할 수 있다.
+
+    @NoArgsConstructor 어노테이션 기능을 통해 생성자를 정의하고,
+    각 컬럼의 값들을 변수로 활용가능하게 해준다.
+
+ */
+
+
 package com.kbstar.springboot.study.domain.posts;
 
 import com.fasterxml.jackson.annotation.JsonTypeId;

@@ -1,5 +1,15 @@
-package com.kbstar.springboot.study.domain.posts;
+/*
+    PostRepository.interface
 
+    Posts 클래스에서 실제로 DB 접근이 가능하게 해주는 역할을 수행하며,
+    실제 query 를 작성하여 프로그래밍된 기능이 DB에 저장, 업데이트, 수정 될수 있도록 쿼리를 날려준다.
+    추가기능으로 DB에 쿼리를 할때 page를 구분해 가져올수 있는 기능을 제공한다.
+
+    select가 아닌 DB에 영향이 미치는 쿼리의 경우 @Modifying 어노테이션을 사용한다.
+ */
+
+
+package com.kbstar.springboot.study.domain.posts;
 
 
 import org.springframework.data.domain.Page;

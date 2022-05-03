@@ -1,3 +1,10 @@
+/*
+    IndexController.java
+
+    매핑을 통해 각 화면을 구성하고, 화면에 포함되어있는 버튼 등의 기능을 처리함(이벤트처리)
+ */
+
+
 package com.kbstar.springboot.study.web;
 
 import com.kbstar.springboot.study.config.auth.LoginUser;
